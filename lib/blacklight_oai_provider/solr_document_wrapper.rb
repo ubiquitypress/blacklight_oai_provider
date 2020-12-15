@@ -21,13 +21,13 @@ module BlacklightOaiProvider
     def earliest
       builder = @controller.search_builder.merge(fl: solr_timestamp, sort: "#{solr_timestamp} asc", rows: 1)
       response = @controller.repository.search(builder)
-      response.documents.first&.timestamp || Time.now
+      response.documents.first&.timestamp || Time.now.utc
     end
 
     def latest
       builder = @controller.search_builder.merge(fl: solr_timestamp, sort: "#{solr_timestamp} desc", rows: 1)
       response = @controller.repository.search(builder)
-      response.documents.first&.timestamp || Time.now
+      response.documents.first&.timestamp || Time.now.utc
     end
 
     def find(selector, options = {})
